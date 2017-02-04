@@ -2,9 +2,10 @@ ColorChooseBox = class()
 
 function ColorChooseBox:init(x,y)
     -- you can accept and set parameters here
+    self.backgroundColor = color(0, 0, 0, 255)
     self.x = x
     self.y = y
-    self.img = image(220,220)
+    self.img = image(260,220)
     self.chooseCircleIn = vec2(110,110)
     self.chooseCircleOut = vec2(0,101)
     self.colorOperation = color(255, 0, 0, 255)
@@ -12,6 +13,7 @@ function ColorChooseBox:init(x,y)
     self.SlideIn = false
     self.SlideOut = false
     self.touchid = nil
+    self.AlphaSlide = EasySlider(x+110,y,200,1,2)
 end
 
 function ColorChooseBox:draw()
@@ -27,6 +29,9 @@ function ColorChooseBox:draw()
     noTint()
     sprite("Project:ColorPickCircle",self.chooseCircleIn.x,self.chooseCircleIn.y)
     sprite("Project:ColorPickCircle",self.chooseCircleOut.x+110,self.chooseCircleOut.y+110)
+    translate(-self.x+130,-self.y+110)
+    self.AlphaSlide:draw()
+    resetMatrix()
     setContext()
     tint(255,self.hide)
     sprite(self.img,self.x,self.y)
@@ -37,7 +42,7 @@ end
 
 function ColorChooseBox:touched(touch)
     -- Codea does not automatically call this method
-    if vec2(touch.x,touch.y):dist(vec2(self.x,self.y))>90 and vec2(touch.x,touch.y):dist(vec2(self.x,self.y))<=110 and touch.state==BEGAN then
+    if vec2(touch.x,touch.y):dist(vec2(self.x-20,self.y))>90 and vec2(touch.x,touch.y):dist(vec2(self.x-20,self.y))<=110 and touch.state==BEGAN then
         self.SlideOut=true
         self.touchid=touch.id
     elseif touch.x>self.x-55 and touch.x<self.x+55 and touch.y>self.y-55 and touch.y<self.y+55 and touch.state==BEGAN then
@@ -79,8 +84,10 @@ function ColorChooseBox:touched(touch)
     if touch.state==ENDED then
         self.SlideIn,self.SlideOut=false,false
     end
+    self.AlphaSlide:touched(touch)
 end
 
 function ColorChooseBox:returnColor()
-    return self.img:get(self.chooseCircleIn.x//1,self.chooseCircleIn.y//1)
+    local r,g,b=self.img:get(self.chooseCircleIn.x//1,self.chooseCircleIn.y//1)
+    return color(r,g,b,self.AlphaSlide.pos*255)
 end
