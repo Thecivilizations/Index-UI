@@ -50,6 +50,30 @@ function ColorChooseBox:touched(touch)
     elseif self.SlideIn and self.touchid==touch.id then
         if touch.x>self.x-55 and touch.x<self.x+55 and touch.y>self.y-55 and touch.y<self.y+55 then
             self.chooseCircleIn=vec2(touch.x-self.x+110,touch.y-self.y+110)
+        else
+            if touch.x<=self.x+55 and touch.x>=self.x-55 then
+                if touch.y>=self.y+55 then
+                    self.chooseCircleIn=vec2(touch.x-self.x+110,55+110)
+                elseif touch.y<=self.y-55 then
+                    self.chooseCircleIn=vec2(touch.x-self.x+110,56)
+                end
+            elseif touch.x>self.x+55 then
+                if touch.y<=self.y+55 and touch.y>=self.y-55 then
+                    self.chooseCircleIn=vec2(55+110,touch.y-self.y+110)
+                elseif touch.y>self.y+55 then
+                    self.chooseCircleIn=vec2(55+110,55+110)
+                else
+                    self.chooseCircleIn=vec2(55+110,56)
+                end
+            elseif touch.x<self.x-55 then
+                if touch.y<=self.y+55 and touch.y>=self.y-55 then
+                    self.chooseCircleIn=vec2(55,touch.y-self.y+110)
+                elseif touch.y>self.y+55 then
+                    self.chooseCircleIn=vec2(55,55+110)
+                else
+                    self.chooseCircleIn=vec2(55,56)
+                end
+            end
         end
     end
     if touch.state==ENDED then
