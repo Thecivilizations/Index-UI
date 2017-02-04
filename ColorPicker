@@ -67,11 +67,11 @@ function ColorChooseBox:touched(touch)
                 end
             elseif touch.x<self.x-55 then
                 if touch.y<=self.y+55 and touch.y>=self.y-55 then
-                    self.chooseCircleIn=vec2(55,touch.y-self.y+110)
+                    self.chooseCircleIn=vec2(56,touch.y-self.y+110)
                 elseif touch.y>self.y+55 then
-                    self.chooseCircleIn=vec2(55,55+110)
+                    self.chooseCircleIn=vec2(56,55+110)
                 else
-                    self.chooseCircleIn=vec2(55,56)
+                    self.chooseCircleIn=vec2(56,56)
                 end
             end
         end
